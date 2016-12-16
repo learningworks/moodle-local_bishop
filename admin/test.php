@@ -23,11 +23,8 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
-$page         = optional_param('page', 0, PARAM_INT);
-$perpage      = optional_param('perpage', 20, PARAM_INT);
-$clearlog     = optional_param('clearlog', 0, PARAM_INT);
 
-admin_externalpage_setup('local_bishop_log');
+admin_externalpage_setup('local_bishop_test');
 
 //$tableheaders = array(
 //    get_string('id', 'local_mc'),

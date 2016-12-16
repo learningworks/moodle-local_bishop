@@ -22,11 +22,57 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['css'] = 'CSS';
+$string['csshead'] = 'CSS head';
+$string['csshead_help'] = 'Will inject custom CSS inside a <strong>&lt;style&gt;</strong> element';
 $string['pluginname'] = 'Bishop';
 $string['plugindescription'] = 'Listens and does';
 $string['subject'] = 'Subject';
 $string['message'] = 'Message';
+$string['message_help'] = 'A custom new user message that can include HTML tags.
+
+The following placeholders are required in the message:
+
+* Username: {$a->username}
+* Password: {$a->newpassword}
+* Site URL: {$a->siteurl}
+
+
+The following placeholders are optional in the message:
+
+* User firstname: {$a->userfirstname} 
+* User fullname: {$a->userfullname}
+* Site name: {$a->sitename}
+* Sign off: {$a->signoff}
+';
 $string['savechanges'] = 'Save changes';
 $string['attachment'] = 'Attachment';
 $string['emailmessagetemplate'] = 'Email message template';
-$string['message_help'] = 'Substition help';
+
+$string['enabled'] = 'Enabled';
+$string['template'] = 'Template';
+$string['usernameregex'] = 'Username regex';
+$string['usernameregex_desc'] = 'Write something';
+$string['log'] = 'Log';
+$string['test'] = 'Test';
+$string['newusernewpasswordtext'] = 'Hi {$a->firstname},
+
+A new account has been created for you at \'{$a->sitename}\'
+and you have been issued with a new temporary password.
+
+Your current login information is now:
+   username: {$a->username}
+   password: {$a->newpassword}
+             (you will have to change your password
+              when you login for the first time)
+
+To start using \'{$a->sitename}\', login at
+   {$a->link}
+
+In most mail programs, this should appear as a blue link
+which you can just click on.  If that doesn\'t work,
+then cut and paste the address into the address
+line at the top of your web browser window.
+
+Cheers from the \'{$a->sitename}\' administrator,
+{$a->signoff}';

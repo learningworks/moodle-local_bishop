@@ -22,10 +22,10 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
-admin_externalpage_setup('mc_settings');
+admin_externalpage_setup('local_bishop_template');
 
 $config = get_config('local_bishop');
-$form = new \local_bishop\form\admin_settings();
+$form = new \local_bishop\form\template();
 $data = $form->get_submitted_data();
 if ($data) {
     set_config('subject', $data->subject, 'local_bishop');
@@ -35,7 +35,7 @@ if ($data) {
         $PAGE->context->id,
         'local_bishop', 'attachment', 1);
 
-
+print_object($data);
     redirect($PAGE->url, get_string('changessaved'), 1);
 } else {
 
@@ -45,7 +45,7 @@ if ($data) {
         'local_bishop',
         'attachment',
         1,
-        \local_bishop\form\admin_settings::editor_options());
+        \local_bishop\form\template::editor_options());
 
     $form->set_data(
         array(
@@ -56,6 +56,7 @@ if ($data) {
             'attachment' => array('itemid' => $attachmentsdraftid)
         )
     );
+
 
 }
 echo $OUTPUT->header();

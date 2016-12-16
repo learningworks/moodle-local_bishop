@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die('Direct access to this script is forbidden.');
 
 require_once($CFG->libdir . '/formslib.php');
 
-class admin_settings extends \moodleform {
+class template extends \moodleform {
 
     public function definition() {
 
@@ -43,6 +43,13 @@ class admin_settings extends \moodleform {
         $form->addRule('body', null, 'required', null, 'client');
 
         $form->addElement('filemanager', 'attachment[itemid]', get_string('attachment', 'local_bishop'), null, self::attachment_options());
+
+
+        $form->addElement('header', 'css', get_string('css', 'local_bishop'));
+
+        $form->addElement('textarea', 'csshead', get_string('csshead', 'local_bishop'),  array('class' => 'input-xxlarge', 'rows' => 10));
+        $form->addHelpButton('csshead', 'csshead', 'local_bishop');
+        //$form->addElement('html', 'csshead_desc', get_string('csshead_desc', 'local_bishop'));
 
         $this->add_action_buttons(true, get_string('savechanges', 'local_bishop'));
     }
