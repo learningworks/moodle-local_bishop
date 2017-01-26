@@ -51,8 +51,8 @@ $string['emailmessagetemplate'] = 'Email message template';
 
 $string['enabled'] = 'Enabled';
 $string['template'] = 'Template';
-$string['usernameregex'] = 'Username regex';
-$string['usernameregex_desc'] = 'Write something';
+$string['matchregex'] = 'Match regular expression';
+$string['matchregex_desc'] = 'Regular expression to match chosen user field on. Delimiters required!';
 $string['log'] = 'Log';
 $string['test'] = 'Test';
 $string['newusernewpasswordtext'] = 'Hi {$a->firstname},
@@ -76,3 +76,7 @@ line at the top of your web browser window.
 
 Cheers from the \'{$a->sitename}\' administrator,
 {$a->signoff}';
+
+$string['lastrunat'] = 'Last ran at: {$a}';
+$string['userfield'] = 'User field';
+$string['userfield_desc'] = 'User field to match on';
