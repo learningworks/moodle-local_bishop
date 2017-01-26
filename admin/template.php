@@ -24,7 +24,7 @@ require_once($CFG->libdir . '/adminlib.php');
 
 admin_externalpage_setup('local_bishop_template');
 
-$config = get_config('local_bishop');
+
 $form = new \local_bishop\form\template();
 $data = $form->get_submitted_data();
 if ($data) {
@@ -34,33 +34,37 @@ if ($data) {
     file_save_draft_area_files($data->attachment['itemid'],
         $PAGE->context->id,
         'local_bishop', 'attachment', 1);
-
-print_object($data);
     redirect($PAGE->url, get_string('changessaved'), 1);
 } else {
+    $config = get_config('local_bishop');
+print_object($config);
+    $subject = isset($config->subject) ? $config->subject : ''; // @todo clean.
+    $bodytext = isset($config->body_text) ? $config->body_text : '';
+    $bodyformat = isset($config->body_format) ? $config->body_format : FORMAT_HTML;
 
-    $attachmentsdraftid = 0;
-    file_prepare_draft_area($attachmentsdraftid,
+//print_object($config);die;
+
+    /*file_prepare_draft_area($attachmentsdraftid,
         $PAGE->context->id,
         'local_bishop',
         'attachment',
         1,
-        \local_bishop\form\template::editor_options());
-
+        \local_bishop\form\template::editor_options());*/
+    $attachmentsdraftid = 0;
     $form->set_data(
-        array(
-            'subject' => $config->subject,
-            'body' => array(
-                'text' => $config->body_text,
-                'format' => $config->body_format),
-            'attachment' => array('itemid' => $attachmentsdraftid)
-        )
+       array(
+           'subject' => $subject,
+           'body' => array(
+               'text' => $bodytext,
+               'format' => $bodyformat),
+           'attachment' => array('itemid' => $attachmentsdraftid)
+       )
     );
 
 
 }
 echo $OUTPUT->header();
 //email_to_user();
-//echo $OUTPUT->heading(get_string('organisationstoinstitutions', 'local_mc'));
+//echo $OUTPUT->heading(get_string('organisationstoinstitutions', 'local_bishop'));
 $form->display();
 echo $OUTPUT->footer();

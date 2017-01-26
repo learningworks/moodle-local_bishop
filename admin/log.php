@@ -15,7 +15,7 @@
 /**
  *  {{DESCRIPTION}}
  *
- * @package   local_mc {@link https://docs.moodle.org/dev/Frankenstyle}
+ * @package   local_bishop {@link https://docs.moodle.org/dev/Frankenstyle}
  * @copyright 2016 LearningWorks Ltd {@link http://www.learningworks.co.nz}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,17 +30,17 @@ $clearlog     = optional_param('clearlog', 0, PARAM_INT);
 admin_externalpage_setup('local_bishop_log');
 
 //$tableheaders = array(
-//    get_string('id', 'local_mc'),
-//    get_string('timelogged', 'local_mc'),
-//    get_string('functionname', 'local_mc'),
-//    get_string('timetaken', 'local_mc'),
-//    get_string('uri', 'local_mc'),
-//    get_string('info', 'local_mc'),
-//    get_string('ip', 'local_mc'),
+//    get_string('id', 'local_bishop'),
+//    get_string('timelogged', 'local_bishop'),
+//    get_string('functionname', 'local_bishop'),
+//    get_string('timetaken', 'local_bishop'),
+//    get_string('uri', 'local_bishop'),
+//    get_string('info', 'local_bishop'),
+//    get_string('ip', 'local_bishop'),
 //);
 //
 //if (!empty($clearlog)) {
-//    $DB->delete_records('local_mc_log');
+//    $DB->delete_records('local_bishop_log');
 //    redirect(new moodle_url('/local/mc/admin/log.php'));
 //}
 //
@@ -50,11 +50,11 @@ admin_externalpage_setup('local_bishop_log');
 //$table->head = $tableheaders;
 //
 //
-//$rowsmatched = $DB->count_records('local_mc_log');
+//$rowsmatched = $DB->count_records('local_bishop_log');
 //if ($rowsmatched) {
 //    $limit = $perpage;
 //    $offset = $page * $limit;
-//    $rs = $DB->get_recordset('local_mc_log', null, 'timelogged DESC', '*', $offset, $limit);
+//    $rs = $DB->get_recordset('local_bishop_log', null, 'timelogged DESC', '*', $offset, $limit);
 //    foreach ($rs as $record) {
 //        $row = array();
 //        $row[] = $record->id;
@@ -70,12 +70,12 @@ admin_externalpage_setup('local_bishop_log');
 //}
 //
 echo $OUTPUT->header();
-//$lastrunat = get_config('local_mc', 'lastrunat');
-//if (empty($lastrunat)) {
-//    $heading = get_string('lastrunat', 'local_mc', get_string('never'));
-//} else {
-//    $heading = get_string('lastrunat', 'local_mc', userdate($lastrunat));
-//}
+$lastrunat = get_config('local_bishop', 'lastrunat');
+if (empty($lastrunat)) {
+    $heading = get_string('lastrunat', 'local_bishop', get_string('never'));
+} else {
+    $heading = get_string('lastrunat', 'local_bishop', userdate($lastrunat));
+}
 echo $OUTPUT->heading($heading);
 //if ($rowsmatched) {
 //    $pagination = new paging_bar($rowsmatched, $page, $limit, $PAGE->url);
@@ -84,7 +84,7 @@ echo $OUTPUT->heading($heading);
 //    echo html_writer::table($table);
 //    echo html_writer::end_div();
 //    echo $OUTPUT->render($pagination);
-//    $message = get_string('clearlog', 'local_mc');
+//    $message = get_string('clearlog', 'local_bishop');
 //    $pageurl = clone($PAGE->url);
 //    $pageurl->param('clearlog', 1);
 //    echo $OUTPUT->single_button($pageurl, $message, 'get');
