@@ -14,7 +14,7 @@
 
 /**
  *
- * @package   local_mc {@link https://docs.moodle.org/dev/Frankenstyle}
+ * @package   local_bishop {@link https://docs.moodle.org/dev/Frankenstyle}
  * @copyright 2016 LearningWorks Ltd {@link http://www.learningworks.co.nz}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -24,8 +24,11 @@ namespace local_bishop\event;
 defined('MOODLE_INTERNAL') || die();
 
 class observer {
-    public static function user_created($event) {
+    public static function user_created(\core\event\base $event) {
         global $CFG, $DB;
-        return true;
+        require_once($CFG->dirroot . '/local/bishop/locallib.php');
+
+        $user = $event->get_record_snapshot('user', $event->relateduserid);
+        local_bishop_mail_user($user);
     }
 }
