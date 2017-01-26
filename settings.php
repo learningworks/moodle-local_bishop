@@ -29,9 +29,18 @@ if ($hassiteconfig) {
     $description = '';
     $settings->add(new admin_setting_configcheckbox('local_bishop/enabled', $name, $description, 0));
 
-    $name = new lang_string('usernameregex', 'local_bishop');
-    $description = new lang_string('usernameregex_desc', 'local_bishop');
-    $settings->add(new admin_setting_configtext('local_bishop/usernameregex', $name, $description, '^[0-9]{8}$'));
+    $name = new lang_string('userfield', 'local_bishop');
+    $description = new lang_string('userfield_desc', 'local_bishop');
+    $options = array(
+        'idnumber' => new lang_string('idnumber'),
+        'username' => new lang_string('username'),
+        );
+    $settings->add(new admin_setting_configselect('local_bishop/userfield', $name, $description, 'idnumber', $options));
+
+
+    $name = new lang_string('matchregex', 'local_bishop');
+    $description = new lang_string('matchregex_desc', 'local_bishop');
+    $settings->add(new admin_setting_configtext('local_bishop/matchregex', $name, $description, '/^[0-9]{8}$/'));
 
     $ADMIN->add('localplugins',
         new admin_category('local_bishop',
