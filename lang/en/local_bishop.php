@@ -33,17 +33,16 @@ $string['message_help'] = 'A custom new user message that can include HTML tags.
 
 The following placeholders are required in the message:
 
-* Username: {$a->username}
-* Password: {$a->newpassword}
-* Site URL: {$a->siteurl}
-
+* Username: {username}
+* Password: {newpassword}
+* Site URL: {siteurl}
 
 The following placeholders are optional in the message:
 
-* User firstname: {$a->userfirstname} 
-* User fullname: {$a->userfullname}
-* Site name: {$a->sitename}
-* Sign off: {$a->signoff}
+* User firstname: {firstname} 
+* User fullname: {fullname}
+* Site name: {sitename}
+* Sign off: {signoff}
 ';
 $string['savechanges'] = 'Save changes';
 $string['attachment'] = 'Attachment';
