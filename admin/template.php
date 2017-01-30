@@ -37,20 +37,16 @@ if ($data) {
     redirect($PAGE->url, get_string('changessaved'), 1);
 } else {
     $config = get_config('local_bishop');
-print_object($config);
-    $subject = isset($config->subject) ? $config->subject : ''; // @todo clean.
+    $subject = isset($config->subject) ? format_string($config->subject) : '';
     $bodytext = isset($config->body_text) ? $config->body_text : '';
     $bodyformat = isset($config->body_format) ? $config->body_format : FORMAT_HTML;
-
-//print_object($config);die;
-
-    /*file_prepare_draft_area($attachmentsdraftid,
+    $attachmentsdraftid = 0;
+    file_prepare_draft_area($attachmentsdraftid,
         $PAGE->context->id,
         'local_bishop',
         'attachment',
         1,
-        \local_bishop\form\template::editor_options());*/
-    $attachmentsdraftid = 0;
+        \local_bishop\form\template::editor_options());
     $form->set_data(
        array(
            'subject' => $subject,
