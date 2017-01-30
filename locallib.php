@@ -22,30 +22,92 @@
  */
 
 
-function local_bishop_mail_user(stdClass $user) {
+function local_bishop_mail_user(stdClass $user, progress_trace $trace = null) {
+    global $CFG, $DB;
     static $config;
+
+    if (is_null($trace)) {
+        $trace = new null_progress_trace();
+    }
+
+    if (!isset($user->auth)) {
+        $trace->output('User auth not passed in user object');
+        return false;
+    }
+    $authplugin = get_auth_plugin($user->auth);
+    if ($authplugin->prevent_local_passwords()) {
+        $trace->output('User auth method prevents internal passwords');
+        return false;
+    }
 
     if (! isset($config)) {
         $config = get_config('local_bishop');
     }
 
     if (empty($config->userfield) or empty($config->matchregex)) {
-        return;
+        $trace->output('Required config fields: userfield or matchregex not set');
+        return false;
     }
 
     $userfield  = $config->userfield;
     $matchregex = $config->matchregex;
 
     if (empty($user->{$userfield})) {
-        return;
+        $trace->output('User field ' . $userfield . ' not in object');
+        return false;
     }
 
     $matches = array();
-    if (! preg_match($config->matchregex, $user->{$userfield}, $matches)) {
-        return;
+    if (! preg_match($matchregex, $user->{$userfield}, $matches)) {
+        $trace->output('No match found: ' . $matchregex . ' <> ' . $userfield);
+        return false;
     }
 
 
+
+
+
+
+    $site  = get_site();
+
+    $newpassword = generate_password();
+    update_internal_user_password($user, $newpassword, true);
+    
+    $a = new stdClass();
+
+    $a->username    = $user->username;
+    $a->newpassword = $newpassword;
+    $a->siteurl     = $CFG->wwwroot .'/login/';
+    $a->fullname    = fullname($user, true);
+    $a->firstname   = $user->firstname;
+    $a->lastname    = $user->lastname;
+    $a->sitename    = format_string($site->fullname);
+    $a->signoff     = generate_email_signoff();
+
+    $required = array('username', 'newpassword', 'siteurl');
+
+    $subject    = isset($config->subject) ? $config->subject : '';
+    $body       = isset($config->body_text) ? $config->body_text : '';
+    
+    $usecustom = 0;
+
+    
+    //print_object($body);
+    $replacedbody = $body;
+    foreach (get_object_vars($a) as $name => $value) {
+        $variable = '{{'. $name. '}}';
+        $replacedbody = str_replace($variable, $value, $replacedbody, $count);
+        if (in_array($name, $required)) {
+            mtrace($count);
+            if (! $count) {
+                die('Fail to find placeholder' . $name);
+            }
+        }
+        //mtrace($key);
+    }
+    
+    //if (empty($config->))
+    //print_object($replacedbody);
 
 
     //email_to_user();
