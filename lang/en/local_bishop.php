@@ -54,7 +54,7 @@ $string['matchregex'] = 'Match regular expression';
 $string['matchregex_desc'] = 'Regular expression to match chosen user field on. Delimiters required!';
 $string['log'] = 'Log';
 $string['test'] = 'Test';
-$string['newusernewpasswordtext'] = 'Hi {$a->firstname},
+$string['templatemessagetext'] = 'Hi {$a->firstname},
 
 A new account has been created for you at \'{$a->sitename}\'
 and you have been issued with a new temporary password.
@@ -75,7 +75,12 @@ line at the top of your web browser window.
 
 Cheers from the \'{$a->sitename}\' administrator,
 {$a->signoff}';
-
+$string['templatesubject'] = 'Welcome to Moodle';
 $string['lastrunat'] = 'Last ran at: {$a}';
 $string['userfield'] = 'User field';
 $string['userfield_desc'] = 'User field to match on';
+$string['sent'] = 'Sent on';
+$string['delivered'] = 'Delivered';
+$string['success'] = 'Success';
+$string['fail'] = 'Fail';
+$string['clearlog'] = 'Clear log';
