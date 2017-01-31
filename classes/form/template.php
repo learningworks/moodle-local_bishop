@@ -47,9 +47,9 @@ class template extends \moodleform {
 
         $form->addElement('header', 'css', get_string('css', 'local_bishop'));
 
-        $form->addElement('textarea', 'csshead', get_string('csshead', 'local_bishop'),  array('class' => 'input-xxlarge', 'rows' => 10));
-        $form->addHelpButton('csshead', 'csshead', 'local_bishop');
-        //$form->addElement('html', 'csshead_desc', get_string('csshead_desc', 'local_bishop'));
+//        $form->addElement('textarea', 'csshead', get_string('csshead', 'local_bishop'),  array('class' => 'input-xxlarge', 'rows' => 10));
+//        $form->addHelpButton('csshead', 'csshead', 'local_bishop');
+
 
         $this->add_action_buttons(true, get_string('savechanges', 'local_bishop'));
     }

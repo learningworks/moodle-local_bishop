@@ -59,8 +59,8 @@ if ($hassiteconfig) {
         new lang_string('log', 'local_bishop'),
         $CFG->wwwroot.'/local/bishop/admin/log.php'));
 
-    $ADMIN->add('local_bishop',
-        new admin_externalpage('local_bishop_test',
-        new lang_string('test', 'local_bishop'),
-        $CFG->wwwroot.'/local/bishop/admin/test.php'));
+//    $ADMIN->add('local_bishop',
+//        new admin_externalpage('local_bishop_test',
+//        new lang_string('test', 'local_bishop'),
+//        $CFG->wwwroot.'/local/bishop/admin/test.php'));
 }
