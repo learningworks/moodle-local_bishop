@@ -63,13 +63,13 @@ function local_bishop_mail_user(stdClass $user, progress_trace $trace = null) {
         return false;
     }
 
-
-
-
-
-
+    // Following mustache variables are required in html message.
+    $required = array('username', 'newpassword', 'siteurl');
+    // Flag to use custom html message or default back to text lang string.
+    $usecustomhtmlmessage = false;
+    // Get site.
     $site  = get_site();
-
+    // Generate a new password.
     $newpassword = generate_password();
     update_internal_user_password($user, $newpassword, true);
     
@@ -84,34 +84,76 @@ function local_bishop_mail_user(stdClass $user, progress_trace $trace = null) {
     $a->sitename    = format_string($site->fullname);
     $a->signoff     = generate_email_signoff();
 
-    $required = array('username', 'newpassword', 'siteurl');
-
+    // Get subject and body.
     $subject    = isset($config->subject) ? $config->subject : '';
     $body       = isset($config->body_text) ? $config->body_text : '';
-    
-    $usecustom = 0;
-
-    
-    //print_object($body);
-    $replacedbody = $body;
-    foreach (get_object_vars($a) as $name => $value) {
-        $variable = '{{'. $name. '}}';
-        $replacedbody = str_replace($variable, $value, $replacedbody, $count);
-        if (in_array($name, $required)) {
-            mtrace($count);
-            if (! $count) {
-                die('Fail to find placeholder' . $name);
+    $message = $body;
+    if ($subject <> '' && $message <> '') {
+        foreach (get_object_vars($a) as $name => $value) {
+            $variable = '{{'. $name. '}}';
+            $message = str_replace($variable, $value, $message, $count);
+            if (in_array($name, $required)) {
+                if (! $count) {
+                    $trace->output('Failed to find placeholder' . $name);
+                    break;
+                }
             }
         }
-        //mtrace($key);
+        // We have all fields we need can use custom message.
+        $usecustomhtmlmessage = true;
     }
-    
-    //if (empty($config->))
-    //print_object($replacedbody);
 
+    if (! $usecustomhtmlmessage) {
+        // Plain text only.
+        $subject = get_string('templatesubject');
+        $messagetext = get_string('templatemessagetext', 'local_bishop', $a);
+        $messagehtml = text_to_html($messagetext, null, false, true);
+    } else {
+        // HTML custom.
+        $messagehtml = format_text($message, FORMAT_HTML);
+        $messagetext = html_to_text($messagehtml);
+        $user->mailformat = FORMAT_HTML;
+    }
 
-    //email_to_user();
+    // Deal with attachment.
+    $fs = get_file_storage();
+    $files = $fs->get_area_files(
+                            context_system::instance()->id,
+                            'local_bishop',
+                            'attachment',
+                            1,
+                            'itemid, filepath, filename',
+                            false
+    );
+    if ($files) {
+        $file = reset($files);
+        $attachment = $file->copy_content_to_temp();
+        $attachmentname = $file->get_filename();
+    }
 
+    // Mail out from support user.
+    $contact = core_user::get_support_user();
 
+    // Directly emailing welcome message rather than using messaging.
+    if (isset($attachment)) {
+        $status = email_to_user($user, $contact, $subject, $messagetext, $messagehtml, $attachment, $attachmentname);
+    } else {
+        $status = email_to_user($user, $contact, $subject, $messagetext, $messagehtml);
+    }
+
+    // Log delivery.
+    $log = new stdClass();
+    $log->userid = $user->id;
+    $log->delivered = $status;
+    $log->time = time();
+    $DB->insert_record('local_bishop_email_log', $log);
+
+    if ($status) {
+        $trace->output('SUCESSFULLY sent '. $a->fullname . ' new user details.');
+    } else {
+        $trace->output('FAILED to sent '. $a->fullname . ' new user details.');
+    }
+
+    return $status;
 }
 
