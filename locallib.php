@@ -72,6 +72,10 @@ function local_bishop_mail_user(stdClass $user, progress_trace $trace = null) {
     // Generate a new password.
     $newpassword = generate_password();
     update_internal_user_password($user, $newpassword, true);
+    // Force password change.
+    if ($authplugin->can_change_password()) {
+        set_user_preference('auth_forcepasswordchange', 1, $user);
+    }
     
     $a = new stdClass();
 
