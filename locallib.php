@@ -161,3 +161,37 @@ function local_bishop_mail_user(stdClass $user, progress_trace $trace = null) {
     return $status;
 }
 
+function local_bishop_queue_user(stdClass $user, progress_trace $trace = null) {
+    global $DB;
+
+    if (is_null($trace)) {
+        $trace = new null_progress_trace();
+    }
+    $exists = $DB->record_exists('local_bishop_queue', array('id' => $user->id));
+    if (! $exists) {
+        $record = new stdClass();
+        $record->userid = $user->id;
+        $record->timecreated = time();
+        $record->id = $DB->insert_record('local_bishop_queue', $record);
+    }
+    return $record->id;
+}
+
+function local_bishop_process_queue(progress_trace $trace = null) {
+    global $DB;
+
+    if (is_null($trace)) {
+        $trace = new null_progress_trace();
+    }
+
+    // Process users in queue.
+    $rs = $DB->get_recordset('local_bishop_queue');
+    foreach ($rs as $record) {
+        $user = core_user::get_user($record->userid);
+        local_bishop_mail_user($user, $trace);
+        $DB->delete_records('local_bishop_queue', array('userid' => $record->userid));
+    }
+    $rs->close();
+
+    set_config('lastrunat', time(), 'local_bishop');
+}

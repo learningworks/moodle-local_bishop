@@ -29,6 +29,6 @@ class observer {
         require_once($CFG->dirroot . '/local/bishop/locallib.php');
 
         $user = $event->get_record_snapshot('user', $event->relateduserid);
-        local_bishop_mail_user($user);
+        local_bishop_queue_user($user);
     }
 }

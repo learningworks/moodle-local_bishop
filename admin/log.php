@@ -24,6 +24,7 @@ require_once($CFG->libdir . '/adminlib.php');
 
 $page         = optional_param('page', 0, PARAM_INT);
 $perpage      = optional_param('perpage', 50, PARAM_INT);
+$clearlog     = optional_param('clearlog', 0, PARAM_INT);
 $filterfailed = optional_param('filterfailed', 0, PARAM_INT);
 
 admin_externalpage_setup('local_bishop_log');

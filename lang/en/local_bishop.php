@@ -84,3 +84,4 @@ $string['delivered'] = 'Delivered';
 $string['success'] = 'Success';
 $string['fail'] = 'Fail';
 $string['clearlog'] = 'Clear log';
+$string['sendlogindetails'] = 'Send new user login details';

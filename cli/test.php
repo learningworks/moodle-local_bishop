@@ -22,7 +22,7 @@ require_once($CFG->dirroot . '/local/bishop/locallib.php');
 
 // Now get cli options.
 list($options, $unrecognized) = cli_get_params(
-    array('verbose' => false, 'help' => false),
+    array('verbose' => false, 'cleanup' => true,'help' => false),
     array('v' => 'verbose', 'h' => 'help'));
 
 if ($unrecognized) {
@@ -60,5 +60,9 @@ if (empty($options['verbose'])) {
 require_once($CFG->libdir . '/testing/generator/lib.php');
 $generator = new testing_data_generator();
 $user = $generator->create_user(array('idnumber'=>'00000000', 'email' => 'learnersupport@learningworks.co.nz'));
-local_bishop_mail_user($user, $trace);
-delete_user($user);
+local_bishop_queue_user($user, $trace);
+local_bishop_process_queue($trace);
+if ((int) $options['cleanup']) {
+    delete_user($user);
+}
+
