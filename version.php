@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015051100;
-$plugin->requires  = 2015051100;        // See http://docs.moodle.org/dev/Moodle_Version
+$plugin->version   = 2016052300;
+$plugin->requires  = 2016052300;        // See http://docs.moodle.org/dev/Moodle_Version
 $plugin->component = 'local_bishop';    // Full name of the plugin (used for diagnostics)
-$plugin->release   = '2.9.0';           // Human-friendly version name.
-$plugin->maturity  = MATURITY_ALPHA;   // This version's maturity level.
+$plugin->release   = '3.1.0';           // Human-friendly version name.
+$plugin->maturity  = MATURITY_STABLE;   // This version's maturity level.
 $plugin->dependencies = array();
